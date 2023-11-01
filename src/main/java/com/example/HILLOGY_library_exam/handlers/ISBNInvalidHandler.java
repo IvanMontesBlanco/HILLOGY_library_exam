@@ -1,4 +1,4 @@
-package handlers;
+package com.example.HILLOGY_library_exam.handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import exceptions.BookNotFoundException;
+import com.example.HILLOGY_library_exam.exceptions.ISBNInvalidException;
 
 @ControllerAdvice
-class BookNotFoundAdvice {
+class ISBNInvalidAdvice {
 
   @ResponseBody
-  @ExceptionHandler(BookNotFoundException.class)
-  @ResponseStatus(HttpStatus.CONFLICT)
-  String BookNotFoundHandler(BookNotFoundException ex) {
+  @ExceptionHandler(ISBNInvalidException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  String BookNotFoundHandler(ISBNInvalidException ex) {
     return ex.getMessage();
   }
 }

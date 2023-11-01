@@ -1,9 +1,11 @@
-package com.example.HILLOGY_library_exam;
+package com.example.HILLOGY_library_exam.classes;
 
 import java.util.Objects;
+
+import com.example.HILLOGY_library_exam.exceptions.ISBNInvalidException;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import exceptions.ISBNInvalidException;
 
 @Entity
 public class Book {
@@ -79,7 +81,7 @@ public class Book {
 	// checks ISBN size and validity and updates it if correct
 	public void setISBN(String ISBN) throws ISBNInvalidException {
 		if (!validateISBN(ISBN)) {
-			throw new ISBNInvalidException(ISBN + " is not a valid ISBN number.");
+			throw new ISBNInvalidException(ISBN);
 		} else {
 			this.ISBN = ISBN;
 		}
@@ -114,7 +116,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Title: " + title + "\nAuthor: " + author + "\nISBN: " + ISBN + "\nAvailable: "
+		return "\nTitle: " + title + "\nAuthor: " + author + "\nISBN: " + ISBN + "\nAvailable: "
 				+ ((getAvailable()) ? "yes" : "no");
 	}
 }

@@ -1,6 +1,6 @@
-package exceptions;
+package com.example.HILLOGY_library_exam.exceptions;
 
-public class BookCheckedOutException extends Exception {
+public class BookCheckedOutException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public BookCheckedOutException(String ISBN) {
