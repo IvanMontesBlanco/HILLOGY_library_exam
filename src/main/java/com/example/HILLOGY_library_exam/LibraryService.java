@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HILLOGY_library_exam.classes.Book;
-import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
-import com.example.HILLOGY_library_exam.exceptions.ISBNInvalidException;
 
 //tag::hateoas-imports[]
 //end::hateoas-imports[]
@@ -28,9 +26,9 @@ import com.example.HILLOGY_library_exam.exceptions.ISBNInvalidException;
 @RestController
 class LibraryService {
 
-	@Autowired 
+	@Autowired
 	private Library library;
-	
+
 	void BookController(Library library) {
 		this.library = library;
 	}
@@ -52,7 +50,12 @@ class LibraryService {
 	// checks if book is already in the library before adding it
 	@PostMapping("/library")
 	Book newBook(@RequestBody Book newBook) {
-		return library.save(newBook);
+		try {
+			findByISBN(newBook.getISBN());
+			throw new BookDuplicatedException(newBook.getISBN());
+		} catch (BookNotFoundException e) {
+			return library.save(newBook);
+		}
 	}
 
 	// find book by ISBN
@@ -67,6 +70,48 @@ class LibraryService {
 				linkTo(methodOn(LibraryService.class).listAll()).withRel("books"));
 	}
 	// end::get-single-item[]
+
+	// find book by title
+	// tag::get-aggregate-root[]
+	@GetMapping("/library/findByTitle/{title}")
+	CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getTitle().contains(title))
+				.map(book -> EntityModel.of(book,
+						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
+						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
+				.collect(Collectors.toList());
+
+		return CollectionModel.of(books, linkTo(methodOn(LibraryService.class).listAll()).withSelfRel());
+	}
+	// end::get-aggregate-root[]
+
+	// find book by author
+	// tag::get-aggregate-root[]
+	@GetMapping("/library/findByAuthor/{author}")
+	CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAuthor().equals(author))
+				.map(book -> EntityModel.of(book,
+						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
+						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
+				.collect(Collectors.toList());
+
+		return CollectionModel.of(books, linkTo(methodOn(LibraryService.class).listAll()).withSelfRel());
+	}
+	// end::get-aggregate-root[]
+
+	// list available books
+	// tag::get-aggregate-root[]
+	@GetMapping("/library/listAvailable")
+	CollectionModel<EntityModel<Book>> listAvailable() {
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAvailable())
+				.map(book -> EntityModel.of(book,
+						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
+						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
+				.collect(Collectors.toList());
+
+		return CollectionModel.of(books, linkTo(methodOn(LibraryService.class).listAll()).withSelfRel());
+	}
+	// end::get-aggregate-root[]
 
 	@PutMapping("/library/{ISBN}")
 	Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {

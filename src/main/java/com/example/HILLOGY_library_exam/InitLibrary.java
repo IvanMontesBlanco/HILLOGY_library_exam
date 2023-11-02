@@ -15,10 +15,14 @@ class InitLibrary {
 
   @Bean
   CommandLineRunner  createDefaultLibrary(Library library) {
-
+	  
+	// creates several test books
+	  
     return args -> {
       log.info("Preloading " + library.save(new Book("404 messages under the sea", "Confused Coder", "9992158107", true)));
-      log.info("Preloading " + library.save(new Book("How 2 Springboot", "Help please", "097522980X", true)));
+      log.info("Preloading " + library.save(new Book("How 2 Springboot", "Keyboard Masher", "097522980X", true)));
+      log.info("Preloading " + library.save(new Book("I really don't know what I'm doing", "Keyboard Masher", "1843560283", true)));
+      log.info("Preloading " + library.save(new Book("Do you know this text?", "Mr Confusion", "0851310419", true)));
     };
   }
 }
