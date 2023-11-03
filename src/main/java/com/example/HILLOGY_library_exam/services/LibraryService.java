@@ -1,4 +1,4 @@
-package com.example.HILLOGY_library_exam;
+package com.example.HILLOGY_library_exam.services;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.HILLOGY_library_exam.classes.Book;
+import com.example.HILLOGY_library_exam.entities.Book;
+import com.example.HILLOGY_library_exam.entities.Library;
 import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;

@@ -6,7 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.HILLOGY_library_exam.classes.Book;
+import com.example.HILLOGY_library_exam.entities.Book;
+import com.example.HILLOGY_library_exam.entities.Library;
 
 @Configuration
 class InitLibrary {

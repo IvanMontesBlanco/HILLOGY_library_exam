@@ -1,4 +1,4 @@
-package com.example.HILLOGY_library_exam.classes;
+package com.example.HILLOGY_library_exam.entities;
 
 import java.util.Objects;
 
