@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HILLOGY_library_exam.classes.Book;
+import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
 
@@ -113,6 +114,7 @@ class LibraryService {
 	}
 	// end::get-aggregate-root[]
 
+	// updates state of a single book
 	@PutMapping("/library/{ISBN}")
 	Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {
 
@@ -128,6 +130,32 @@ class LibraryService {
 					newBook.setISBN(ISBN);
 					return library.save(newBook);
 				});
+	}
+
+	// changes a single book's availability
+	// not in mapping since it's reused for the checkOutBook and returnBook
+	// functions
+	void updateAvailability(String ISBN, Boolean available) {
+		Book toUpdate = library.findById(ISBN).get();
+		toUpdate.setAvailable(available);
+		replaceBook(toUpdate, ISBN);
+	}
+
+	// checks out a single book
+	@GetMapping("/library/checkout/{ISBN}")
+	void checkOutBook(@PathVariable String ISBN) {
+		Book toCheckOut = library.findById(ISBN).get();
+		if (toCheckOut.getAvailable()) {
+			updateAvailability(ISBN, false);
+		} else {
+			throw new BookCheckedOutException(ISBN);
+		}
+	}
+
+	// returns a single book
+	@GetMapping("/library/return/{ISBN}")
+	void returnBook(@PathVariable String ISBN) {
+		updateAvailability(ISBN, true);
 	}
 
 	// checks if book is checked out before deleting it
