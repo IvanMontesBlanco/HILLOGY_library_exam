@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.example.HILLOGY_library_exam.entities.Book;
-import com.example.HILLOGY_library_exam.entities.Library;
+import com.example.HILLOGY_library_exam.repositories.Library;
 
 @Configuration
 class InitLibrary {
@@ -18,7 +18,6 @@ class InitLibrary {
   CommandLineRunner  createDefaultLibrary(Library library) {
 	  
 	// creates several test books
-	  
     return args -> {
       log.info("Preloading " + library.save(new Book("404 messages under the sea", "Confused Coder", "9992158107", true)));
       log.info("Preloading " + library.save(new Book("How 2 Springboot", "Keyboard Masher", "097522980X", true)));

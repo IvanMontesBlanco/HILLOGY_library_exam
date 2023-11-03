@@ -14,18 +14,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HILLOGY_library_exam.entities.Book;
-import com.example.HILLOGY_library_exam.entities.Library;
 import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
+import com.example.HILLOGY_library_exam.repositories.Library;
 
 //tag::hateoas-imports[]
 //end::hateoas-imports[]
 
 @RestController
+@RequestMapping("/api/library")
 class LibraryService {
 
 	@Autowired
@@ -37,7 +39,7 @@ class LibraryService {
 
 	// Aggregate root
 	// tag::get-aggregate-root[]
-	@GetMapping("/library")
+	@GetMapping
 	CollectionModel<EntityModel<Book>> listAll() {
 		List<EntityModel<Book>> books = library.findAll().stream()
 				.map(book -> EntityModel.of(book,
@@ -50,7 +52,7 @@ class LibraryService {
 	// end::get-aggregate-root[]
 
 	// checks if book is already in the library before adding it
-	@PostMapping("/library")
+	@PostMapping
 	Book newBook(@RequestBody Book newBook) {
 		try {
 			findByISBN(newBook.getISBN());
@@ -62,7 +64,7 @@ class LibraryService {
 
 	// find book by ISBN
 	// tag::get-single-item[]
-	@GetMapping("/library/{ISBN}")
+	@GetMapping("/{ISBN}")
 	EntityModel<Book> findByISBN(@PathVariable String ISBN) {
 		Book book = library.findById(ISBN) //
 				.orElseThrow(() -> new BookNotFoundException(ISBN));
@@ -75,7 +77,7 @@ class LibraryService {
 
 	// find book by title
 	// tag::get-aggregate-root[]
-	@GetMapping("/library/findByTitle/{title}")
+	@GetMapping("/findByTitle/{title}")
 	CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
 		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getTitle().contains(title))
 				.map(book -> EntityModel.of(book,
@@ -89,7 +91,7 @@ class LibraryService {
 
 	// find book by author
 	// tag::get-aggregate-root[]
-	@GetMapping("/library/findByAuthor/{author}")
+	@GetMapping("/findByAuthor/{author}")
 	CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
 		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAuthor().equals(author))
 				.map(book -> EntityModel.of(book,
@@ -103,7 +105,7 @@ class LibraryService {
 
 	// list available books
 	// tag::get-aggregate-root[]
-	@GetMapping("/library/listAvailable")
+	@GetMapping("/listAvailable")
 	CollectionModel<EntityModel<Book>> listAvailable() {
 		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAvailable())
 				.map(book -> EntityModel.of(book,
@@ -116,7 +118,7 @@ class LibraryService {
 	// end::get-aggregate-root[]
 
 	// updates state of a single book
-	@PutMapping("/library/{ISBN}")
+	@PutMapping("/{ISBN}")
 	Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {
 
 		return library.findById(ISBN) //
@@ -143,7 +145,7 @@ class LibraryService {
 	}
 
 	// checks out a single book
-	@GetMapping("/library/checkout/{ISBN}")
+	@GetMapping("/checkout/{ISBN}")
 	void checkOutBook(@PathVariable String ISBN) {
 		Book toCheckOut = library.findById(ISBN).get();
 		if (toCheckOut.getAvailable()) {
@@ -154,14 +156,20 @@ class LibraryService {
 	}
 
 	// returns a single book
-	@GetMapping("/library/return/{ISBN}")
+	@GetMapping("/return/{ISBN}")
 	void returnBook(@PathVariable String ISBN) {
 		updateAvailability(ISBN, true);
 	}
 
 	// checks if book is checked out before deleting it
-	@DeleteMapping("/library/{ISBN}")
+	@DeleteMapping("/{ISBN}")
 	void deleteBook(@PathVariable String ISBN) {
-		library.deleteById(ISBN);
+		Book todel = findByISBN(ISBN).getContent();
+		if (todel.getAvailable()) {
+			library.deleteById(ISBN);
+		}
+		else {
+			throw new BookCheckedOutException(ISBN);
+		}
 	}
 }
