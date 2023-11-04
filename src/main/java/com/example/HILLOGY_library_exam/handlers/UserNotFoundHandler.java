@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
+import com.example.HILLOGY_library_exam.exceptions.UserNotFoundException;
 
 @ControllerAdvice
-class BookNotFoundAdvice {
+class UserNotFoundAdvice {
 
   @ResponseBody
-  @ExceptionHandler(BookNotFoundException.class)
+  @ExceptionHandler(UserNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
-  String BookNotFoundHandler(BookNotFoundException ex) {
+  String UserNotFoundHandler(UserNotFoundException ex) {
     return ex.getMessage();
   }
 }

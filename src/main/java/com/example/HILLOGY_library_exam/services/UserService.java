@@ -13,28 +13,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import com.example.HILLOGY_library_exam.entities.Book;
 import com.example.HILLOGY_library_exam.entities.User;
+import com.example.HILLOGY_library_exam.exceptions.UserNotFoundException;
 import com.example.HILLOGY_library_exam.repositories.UserRepository;
 
 //tag::hateoas-imports[]
 //end::hateoas-imports[]
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("api/users/")
 public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
-	private WebClient.Builder webClientBuilder;
+	private LibraryService libraryService;
 
-	UserService(UserRepository userRepository, WebClient.Builder webClientBuilder) {
+	UserService(UserRepository userRepository, LibraryService libraryService) {
 		this.userRepository = userRepository;
-		this.webClientBuilder = webClientBuilder;
+		this.libraryService = libraryService;
 	}
 
 	// Aggregate root
@@ -51,11 +50,12 @@ public class UserService {
 	}
 	// end::get-aggregate-root[]
 
-	// find user by Id
+	// find user by id
 	// tag::get-single-item[]
-	@GetMapping("/{Id}")
+	@GetMapping("/{id}")
 	EntityModel<User> findById(@PathVariable Long id) {
-		User user = userRepository.findById(id).get();
+		User user = userRepository.findById(id)//
+				.orElseThrow(() -> new UserNotFoundException(id));
 
 		return EntityModel.of(user, //
 				linkTo(methodOn(UserService.class).findById(id)).withSelfRel(),
@@ -65,14 +65,15 @@ public class UserService {
 
 	// check out book by ISBN
 	@GetMapping("/checkout/{ISBN}")
-	void checkOutBook(String ISBN) {
-		webClientBuilder.build().get().uri("http://localhost:8080/library/checkout/"+ISBN).retrieve().bodyToMono(Book.class) .block();
-;
+	EntityModel<Book> checkOutBook(@PathVariable String ISBN) {
+		libraryService.checkOutBook(ISBN);
+		return libraryService.findByISBN(ISBN);
 	}
 
 	// return book by ISBN
 	@GetMapping("/return/{ISBN}")
-	void returnBook(String ISBN) {
-		webClientBuilder.build().get().uri("http://localhost:8080/library/return/"+ISBN).retrieve().bodyToMono(Book.class) .block();
+	EntityModel<Book> returnBook(@PathVariable String ISBN) {
+		libraryService.returnBook(ISBN);
+		return libraryService.findByISBN(ISBN);
 	}
 }
