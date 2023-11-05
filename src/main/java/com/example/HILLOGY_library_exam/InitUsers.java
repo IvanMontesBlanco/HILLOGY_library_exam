@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
@@ -39,11 +38,5 @@ class InitUsers {
       log.info("Preloading " + userRepository.save(new User("Bobbert")));
       log.info("Preloading " + userRepository.save(new User("Sarah")));
     };
-  }
-  
-  // creates a web client for consulting the library service
-  @Bean
-  public WebClient.Builder getWebClientBuilder(){
-      return WebClient.builder();
   }
 }
