@@ -10,7 +10,6 @@ import org.springframework.shell.Bootstrap;
 public class HillogyLibraryExamApplication {
 
 	public static void main(String[] args) throws IOException {
-		SpringApplication.run(HillogyLibraryExamApplication.class, args);
 		Bootstrap.main(args);
 	}
 

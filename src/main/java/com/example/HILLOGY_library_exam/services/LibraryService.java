@@ -79,7 +79,7 @@ class LibraryService {
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByTitle/{title}")
 	CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
-		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getTitle().contains(title))
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getTitle()).contains(title))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
 						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
@@ -93,7 +93,7 @@ class LibraryService {
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByAuthor/{author}")
 	CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
-		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAuthor().equals(author))
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getAuthor()).equals(author))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
 						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
@@ -162,7 +162,7 @@ class LibraryService {
 	}
 
 	// checks if book is checked out before deleting it
-	@DeleteMapping("/{ISBN}")
+	@GetMapping("/delete/{ISBN}")
 	void deleteBook(@PathVariable String ISBN) {
 		Book todel = findByISBN(ISBN).getContent();
 		if (todel.getAvailable()) {
@@ -171,5 +171,10 @@ class LibraryService {
 		else {
 			throw new BookCheckedOutException(ISBN);
 		}
+	}
+	
+	// remove spaces from url params
+	String formatUrlParam(String url_param) {
+		return url_param.toLowerCase().replace(" ", "");
 	}
 }

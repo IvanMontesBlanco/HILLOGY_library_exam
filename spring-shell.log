@@ -7,3 +7,155 @@ help
 help
 version
 // Spring Shell 1.2.0.RELEASE log opened at 2023-11-05 20:38:09
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 13:25:13
+help
+listBooks
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 13:34:45
+l_b
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 13:40:55
+l_a
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 13:57:57
+help
+listBooks
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 14:02:57
+l_a
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 14:15:58
+help
+init
+list_books
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 15:55:22
+// [failed] init
+init
+listBooks
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 15:58:39
+init
+list_books
+help
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:00:35
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:04:55
+init
+// [failed] list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:13:33
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:14:35
+init
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:15:45
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:16:06
+init
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:16:35
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:24:43
+init
+list_books
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:25:36
+// [failed] init
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:26:01
+init
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:34:30
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:34:41
+init
+// [failed] list_books
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:36:17
+init
+// [failed] list_books
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:38:43
+init
+// [failed] list_books
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:53:54
+// [failed] list_books
+init
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 16:54:32
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 16:55:10
+init
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 17:03:05
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 17:25:36
+init
+// [failed] findByTitle spring
+list_books
+// [failed] find_by_ISBN 0
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 18:20:28
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 18:20:50
+init
+// [failed] find_by_title spring
+list_available
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 18:23:32
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 18:24:11
+init
+list_books
+// [failed] find_by_author m
+// [failed] find_by_author i
+// [failed] find_by_author Keyboard Masher
+// [failed] find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 18:29:20
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 18:29:54
+init
+// [failed] find_by_author keyboard masher
+// [failed] find_by_author keyboardmasher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 18:35:24
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 18:35:43
+init
+find_by_author keyboard
+find_by_author keyboard_masher
+// [failed] find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 18:58:35
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 18:58:56
+init
+find_by_author o
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:10:04
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:10:20
+init
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:11:19
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:11:36
+init
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:16:17
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:16:36
+init
+find_by_author x
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:17:51
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:18:13
+find_by_author x o
+find_by_author keyboard masher
+init
+find_by_author o
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:23:37
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:25:43
+init
+find_by_author x o
+find_by_author keyboard masher
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-06 19:52:12
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-06 19:52:32
+init
+find_by_title x
+find_by_author l
+find_by_author keyboard
+find_by_author keyboard masher
+find_by_author okp
+// [failed] add_book
+add_book o o o
