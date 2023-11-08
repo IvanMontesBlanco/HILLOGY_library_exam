@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Book {
+	private @Id String ISBN;
 	private String title;
 	private String author;
-	private @Id String ISBN;
 	private Boolean available;
 	
 	// this class does not use the typical "id" attribute due to ISBN already being an unique id
@@ -20,14 +20,56 @@ public class Book {
 	public Book() {
 	}
 	
-	public Book(String title, String author, String ISBN, Boolean available) {
-		super();
+	public Book(String ISBN, String title, String author) {
+		this.ISBN = ISBN;
 		this.title = title;
 		this.author = author;
-		this.ISBN = ISBN;
-		this.available = available;
+		this.available = true;
 	}
 
+	// validates if a given string is a correct ISBN number
+		public Boolean validateISBN(String ISBN) {
+			// check size
+			if (ISBN.length() != 10) {
+				return false;
+			}
+
+			// obtain sum of digits 1 to 9
+			int sum = 0;
+			for (int i = 0; i < 9; i++) {
+				char digit = ISBN.charAt(i);
+
+				if (!Character.isDigit(digit)) {
+					return false;
+				}
+
+				sum += Character.getNumericValue(digit) * (10 - i);
+			}
+
+			// check if last digit is an X and replace it with 10 in the sum if so
+			char last_digit = ISBN.charAt(9);
+			if (Character.isDigit(last_digit) || last_digit == 'X') {
+				sum += ((last_digit == 'X') ? 10 : Character.getNumericValue(last_digit));
+			} else {
+				return false;
+			}
+
+			return (sum % 11 == 0);
+		}
+
+		public String getISBN() {
+			return ISBN;
+		}
+
+		// checks ISBN size and validity and updates it if correct
+		public void setISBN(String ISBN) throws ISBNInvalidException {
+			if (!validateISBN(ISBN)) {
+				throw new ISBNInvalidException(ISBN);
+			} else {
+				this.ISBN = ISBN;
+			}
+		}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -42,49 +84,6 @@ public class Book {
 
 	public void setAuthor(String author) {
 		this.author = author;
-	}
-
-	// validates if a given string is a correct ISBN number
-	public Boolean validateISBN(String ISBN) {
-		// check size
-		if (ISBN.length() != 10) {
-			return false;
-		}
-
-		// obtain sum of digits 1 to 9
-		int sum = 0;
-		for (int i = 0; i < 9; i++) {
-			char digit = ISBN.charAt(i);
-
-			if (!Character.isDigit(digit)) {
-				return false;
-			}
-
-			sum += Character.getNumericValue(digit) * (10 - i);
-		}
-
-		// check if last digit is an X and replace it with 10 in the sum if so
-		char last_digit = ISBN.charAt(9);
-		if (Character.isDigit(last_digit) || last_digit == 'X') {
-			sum += ((last_digit == 'X') ? 10 : Character.getNumericValue(last_digit));
-		} else {
-			return false;
-		}
-
-		return (sum % 11 == 0);
-	}
-
-	public String getISBN() {
-		return ISBN;
-	}
-
-	// checks ISBN size and validity and updates it if correct
-	public void setISBN(String ISBN) throws ISBNInvalidException {
-		if (!validateISBN(ISBN)) {
-			throw new ISBNInvalidException(ISBN);
-		} else {
-			this.ISBN = ISBN;
-		}
 	}
 
 	public Boolean getAvailable() {

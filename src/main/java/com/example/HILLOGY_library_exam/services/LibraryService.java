@@ -28,7 +28,7 @@ import com.example.HILLOGY_library_exam.repositories.Library;
 
 @RestController
 @RequestMapping("/api/library")
-class LibraryService {
+public class LibraryService {
 
 	@Autowired
 	private Library library;
@@ -40,7 +40,7 @@ class LibraryService {
 	// Aggregate root
 	// tag::get-aggregate-root[]
 	@GetMapping
-	CollectionModel<EntityModel<Book>> listAll() {
+	public CollectionModel<EntityModel<Book>> listAll() {
 		List<EntityModel<Book>> books = library.findAll().stream()
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
@@ -53,7 +53,7 @@ class LibraryService {
 
 	// checks if book is already in the library before adding it
 	@PostMapping
-	Book newBook(@RequestBody Book newBook) {
+	public Book newBook(@RequestBody Book newBook) {
 		try {
 			findByISBN(newBook.getISBN());
 			throw new BookDuplicatedException(newBook.getISBN());
@@ -65,7 +65,7 @@ class LibraryService {
 	// find book by ISBN
 	// tag::get-single-item[]
 	@GetMapping("/{ISBN}")
-	EntityModel<Book> findByISBN(@PathVariable String ISBN) {
+	public EntityModel<Book> findByISBN(@PathVariable String ISBN) {
 		Book book = library.findById(ISBN) //
 				.orElseThrow(() -> new BookNotFoundException(ISBN));
 
@@ -78,7 +78,7 @@ class LibraryService {
 	// find book by title
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByTitle/{title}")
-	CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
+	public CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
 		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getTitle()).contains(title))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
@@ -92,8 +92,8 @@ class LibraryService {
 	// find book by author
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByAuthor/{author}")
-	CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
-		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getAuthor()).equals(author))
+	public CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
+		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getAuthor()).contains(author))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
 						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
@@ -106,7 +106,7 @@ class LibraryService {
 	// list available books
 	// tag::get-aggregate-root[]
 	@GetMapping("/listAvailable")
-	CollectionModel<EntityModel<Book>> listAvailable() {
+	public CollectionModel<EntityModel<Book>> listAvailable() {
 		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> book.getAvailable())
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
@@ -119,7 +119,7 @@ class LibraryService {
 
 	// updates state of a single book
 	@PutMapping("/{ISBN}")
-	Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {
+	public Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {
 
 		return library.findById(ISBN) //
 				.map(book -> {
