@@ -3,18 +3,25 @@ package com.example.HILLOGY_library_exam.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.HILLOGY_library_exam.entities.Book;
 import com.example.HILLOGY_library_exam.entities.User;
+import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
+import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
+import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
 import com.example.HILLOGY_library_exam.exceptions.UserNotFoundException;
 import com.example.HILLOGY_library_exam.repositories.UserRepository;
 
@@ -27,7 +34,7 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private LibraryService libraryService;
 
@@ -39,7 +46,7 @@ public class UserService {
 	// Aggregate root
 	// tag::get-aggregate-root[]
 	@GetMapping
-	CollectionModel<EntityModel<User>> listAll() {
+	public CollectionModel<EntityModel<User>> listAll() {
 		List<EntityModel<User>> users = userRepository.findAll().stream()
 				.map(user -> EntityModel.of(user,
 						linkTo(methodOn(UserService.class).findById(user.getId())).withSelfRel(),
@@ -50,10 +57,15 @@ public class UserService {
 	}
 	// end::get-aggregate-root[]
 
+	@PostMapping
+	public User newUser(@RequestBody User newUser) {
+		return userRepository.save(newUser);
+	}
+	
 	// find user by id
 	// tag::get-single-item[]
 	@GetMapping("/{id}")
-	EntityModel<User> findById(@PathVariable Long id) {
+	public EntityModel<User> findById(@PathVariable Long id) {
 		User user = userRepository.findById(id)//
 				.orElseThrow(() -> new UserNotFoundException(id));
 
@@ -63,17 +75,37 @@ public class UserService {
 	}
 	// end::get-single-item[]
 
+	// returns all books of a user if deleted
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable Long id) {
+		User todel = findById(id).getContent();
+		Iterator<String> itr = todel.getBooks().iterator();
+
+		while (itr.hasNext()) {
+			libraryService.returnBook(itr.next());
+		}
+
+		userRepository.delete(todel);
+	}
+
 	// check out book by ISBN
-	@GetMapping("/checkout/{ISBN}")
-	EntityModel<Book> checkOutBook(@PathVariable String ISBN) {
+	@GetMapping("/checkout/{id}/{ISBN}")
+	public EntityModel<Book> checkOutBook(@PathVariable long id, @PathVariable String ISBN) {
+		User user = userRepository.findById(id)//
+				.orElseThrow(() -> new UserNotFoundException(id));
+		Book book = libraryService.findByISBN(ISBN).getContent();
 		libraryService.checkOutBook(ISBN);
+		user.checkOutBook(book.getISBN());
 		return libraryService.findByISBN(ISBN);
 	}
 
 	// return book by ISBN
-	@GetMapping("/return/{ISBN}")
-	EntityModel<Book> returnBook(@PathVariable String ISBN) {
+	@GetMapping("/return/{id}/{ISBN}")
+	public EntityModel<Book> returnBook(@PathVariable long id, @PathVariable String ISBN) {
+		User user = userRepository.findById(id)//
+				.orElseThrow(() -> new UserNotFoundException(id));
 		libraryService.returnBook(ISBN);
+		user.returnBook(ISBN);
 		return libraryService.findByISBN(ISBN);
 	}
 }

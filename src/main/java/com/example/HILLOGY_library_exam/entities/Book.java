@@ -13,13 +13,15 @@ public class Book {
 	private String title;
 	private String author;
 	private Boolean available;
-	
-	// this class does not use the typical "id" attribute due to ISBN already being an unique id
-	// this class only takes the 10-digit ISBN variant into account for the sake of simplicity
-	
+
+	// this class does not use the typical "id" attribute due to ISBN already being
+	// an unique id
+	// this class only takes the 10-digit ISBN variant into account for the sake of
+	// simplicity
+
 	public Book() {
 	}
-	
+
 	public Book(String ISBN, String title, String author) {
 		this.ISBN = ISBN;
 		this.title = title;
@@ -28,48 +30,39 @@ public class Book {
 	}
 
 	// validates if a given string is a correct ISBN number
-		public Boolean validateISBN(String ISBN) {
-			// check size
-			if (ISBN.length() != 10) {
+	public Boolean validateISBN(String ISBN) {
+		// check size
+		if (ISBN.length() != 10) {
+			return false;
+		}
+
+		// obtain sum of digits 1 to 9
+		int sum = 0;
+		for (int i = 0; i < 9; i++) {
+			char digit = ISBN.charAt(i);
+
+			if (!Character.isDigit(digit)) {
 				return false;
 			}
 
-			// obtain sum of digits 1 to 9
-			int sum = 0;
-			for (int i = 0; i < 9; i++) {
-				char digit = ISBN.charAt(i);
-
-				if (!Character.isDigit(digit)) {
-					return false;
-				}
-
-				sum += Character.getNumericValue(digit) * (10 - i);
-			}
-
-			// check if last digit is an X and replace it with 10 in the sum if so
-			char last_digit = ISBN.charAt(9);
-			if (Character.isDigit(last_digit) || last_digit == 'X') {
-				sum += ((last_digit == 'X') ? 10 : Character.getNumericValue(last_digit));
-			} else {
-				return false;
-			}
-
-			return (sum % 11 == 0);
+			sum += Character.getNumericValue(digit) * (10 - i);
 		}
 
-		public String getISBN() {
-			return ISBN;
+		// check if last digit is an X and replace it with 10 in the sum if so
+		char last_digit = ISBN.charAt(9);
+		if (Character.isDigit(last_digit) || last_digit == 'X') {
+			sum += ((last_digit == 'X') ? 10 : Character.getNumericValue(last_digit));
+		} else {
+			return false;
 		}
 
-		// checks ISBN size and validity and updates it if correct
-		public void setISBN(String ISBN) throws ISBNInvalidException {
-			if (!validateISBN(ISBN)) {
-				throw new ISBNInvalidException(ISBN);
-			} else {
-				this.ISBN = ISBN;
-			}
-		}
-	
+		return (sum % 11 == 0);
+	}
+
+	public String getISBN() {
+		return ISBN;
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -94,7 +87,7 @@ public class Book {
 		this.available = available;
 	}
 
-	// hasCode() and equals() only take the ISBN into account due to int being a
+	// hasCode() and equals() only take the ISBN into account due to it being an
 	// unique id
 	@Override
 	public int hashCode() {
@@ -117,5 +110,14 @@ public class Book {
 	public String toString() {
 		return "\nTitle: " + title + "\nAuthor: " + author + "\nISBN: " + ISBN + "\nAvailable: "
 				+ ((getAvailable()) ? "yes" : "no");
+	}
+
+	// checks ISBN size and validity and updates it if correct
+	public void setISBN(String ISBN) throws ISBNInvalidException {
+		if (!validateISBN(ISBN)) {
+			throw new ISBNInvalidException(ISBN);
+		} else {
+			this.ISBN = ISBN;
+		}
 	}
 }

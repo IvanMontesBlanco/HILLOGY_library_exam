@@ -162,7 +162,7 @@ public class LibraryService {
 	}
 
 	// checks if book is checked out before deleting it
-	@GetMapping("/delete/{ISBN}")
+	@DeleteMapping("/{ISBN}")
 	public void deleteBook(@PathVariable String ISBN) {
 		Book todel = findByISBN(ISBN).getContent();
 		if (todel.getAvailable()) {

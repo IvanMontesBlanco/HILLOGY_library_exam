@@ -328,3 +328,29 @@ delete_book 0851310419
 delete_book 0851310419
 quit
 // Spring Shell 1.2.0.RELEASE log closed at 2023-11-08 17:27:26
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-08 19:36:15
+init
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-08 19:37:46
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-08 19:38:35
+init
+add_user manolo
+list_users
+list_books
+delete_user 2
+delete_user 2
+list_users
+add_user "shadow replacement"
+check_out --u 1 --b 0851310419
+list_available
+list_users
+return --u 1 --b 0851310419
+list_available
+check_out --u 1 --b 0851310419
+check_out --u 1 --b 1843560283
+// [failed] check_out --u 2 --b 0851310419
+// [failed] check_out --u 3 --b 0851310419
+list_users
+list_available
+delete_user 1
+list_available
