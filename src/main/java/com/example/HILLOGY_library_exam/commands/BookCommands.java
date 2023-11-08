@@ -20,6 +20,7 @@ import org.springframework.shell.core.annotation.CliOption;
 import org.springframework.stereotype.Component;
 
 import com.example.HILLOGY_library_exam.entities.Book;
+import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
 import com.example.HILLOGY_library_exam.repositories.Library;
@@ -88,10 +89,19 @@ public class BookCommands implements CommandMarker {
 		}
 	}
 
-//	@CliCommand(value = { "delete_book", "deleteBook" }, help = "Deletes the book with the ISBN given.")
-//	public String delete_book(@CliOption(key = { "", "ISBN" }, mandatory = true) String ISBN) {
-//		return books2string("http://localhost:8080/api/library/delete/" + ISBN);
-//	}
+	@CliCommand(value = { "delete_book", "deleteBook" }, help = "Deletes the book with the given ISBN.")
+	public String delete_book(@CliOption(key = { "", "ISBN" }, mandatory = true) String ISBN) {
+		try {
+			libraryService.deleteBook(ISBN);
+			return "Book with ISBN (" + ISBN + ") has been successfully deleted.";
+		}
+		catch(BookNotFoundException e) {
+			return e.getMessage();
+		}
+		catch(BookCheckedOutException e) {
+			return e.getMessage();
+		}
+	}
 
 	// returns a given book collection in text form
 	private String bookCollection2String(CollectionModel<EntityModel<Book>> bookCollection) {

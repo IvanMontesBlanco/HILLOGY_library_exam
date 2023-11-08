@@ -315,3 +315,16 @@ find_by_ISBN x
 find_by_ISBN 1843560283
 quit
 // Spring Shell 1.2.0.RELEASE log closed at 2023-11-08 10:27:09
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-08 17:24:44
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-08 17:24:44
+init
+// [failed] delete_book x
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-08 17:25:39
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-08 17:25:54
+init
+delete_book x
+delete_book 0851310419
+delete_book 0851310419
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-08 17:27:26

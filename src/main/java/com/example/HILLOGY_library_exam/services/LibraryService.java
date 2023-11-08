@@ -157,13 +157,13 @@ public class LibraryService {
 
 	// returns a single book
 	@GetMapping("/return/{ISBN}")
-	void returnBook(@PathVariable String ISBN) {
+	public void returnBook(@PathVariable String ISBN) {
 		updateAvailability(ISBN, true);
 	}
 
 	// checks if book is checked out before deleting it
 	@GetMapping("/delete/{ISBN}")
-	void deleteBook(@PathVariable String ISBN) {
+	public void deleteBook(@PathVariable String ISBN) {
 		Book todel = findByISBN(ISBN).getContent();
 		if (todel.getAvailable()) {
 			library.deleteById(ISBN);
