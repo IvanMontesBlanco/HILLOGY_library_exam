@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,11 +58,6 @@ public class UserService {
 	}
 	// end::get-aggregate-root[]
 
-	@PostMapping
-	public User newUser(@RequestBody User newUser) {
-		return userRepository.save(newUser);
-	}
-	
 	// find user by id
 	// tag::get-single-item[]
 	@GetMapping("/{id}")
@@ -74,6 +70,28 @@ public class UserService {
 				linkTo(methodOn(UserService.class).listAll()).withRel("books"));
 	}
 	// end::get-single-item[]
+
+	@PostMapping
+	public User newUser(@RequestBody User newUser) {
+		return userRepository.save(newUser);
+	}
+
+	// updates state of a single user
+	@PutMapping("/{id}")
+	public User replaceUser(@RequestBody User newUser, @PathVariable long id) {
+
+		return userRepository.findById(id) //
+				.map(user -> {
+					user.setId(newUser.getId());
+					user.setName(newUser.getName());
+					user.setBooks(newUser.getBooks());
+					return userRepository.save(user);
+				}) //
+				.orElseGet(() -> {
+					newUser.setId(newUser.getId());
+					return userRepository.save(newUser);
+				});
+	}
 
 	// returns all books of a user if deleted
 	@DeleteMapping("/{id}")
@@ -96,6 +114,7 @@ public class UserService {
 		Book book = libraryService.findByISBN(ISBN).getContent();
 		libraryService.checkOutBook(ISBN);
 		user.checkOutBook(book.getISBN());
+		replaceUser(user, id);
 		return libraryService.findByISBN(ISBN);
 	}
 
@@ -106,6 +125,7 @@ public class UserService {
 				.orElseThrow(() -> new UserNotFoundException(id));
 		libraryService.returnBook(ISBN);
 		user.returnBook(ISBN);
+		replaceUser(user, id);
 		return libraryService.findByISBN(ISBN);
 	}
 }

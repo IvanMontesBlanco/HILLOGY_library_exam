@@ -51,17 +51,6 @@ public class LibraryService {
 	}
 	// end::get-aggregate-root[]
 
-	// checks if book is already in the library before adding it
-	@PostMapping
-	public Book newBook(@RequestBody Book newBook) {
-		try {
-			findByISBN(newBook.getISBN());
-			throw new BookDuplicatedException(newBook.getISBN());
-		} catch (BookNotFoundException e) {
-			return library.save(newBook);
-		}
-	}
-
 	// find book by ISBN
 	// tag::get-single-item[]
 	@GetMapping("/{ISBN}")
@@ -79,7 +68,8 @@ public class LibraryService {
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByTitle/{title}")
 	public CollectionModel<EntityModel<Book>> findByTitle(@PathVariable String title) {
-		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getTitle()).contains(title))
+		List<EntityModel<Book>> books = library.findAll().stream()
+				.filter(book -> formatUrlParam(book.getTitle()).contains(title))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
 						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
@@ -93,7 +83,8 @@ public class LibraryService {
 	// tag::get-aggregate-root[]
 	@GetMapping("/findByAuthor/{author}")
 	public CollectionModel<EntityModel<Book>> findByAuthor(@PathVariable String author) {
-		List<EntityModel<Book>> books = library.findAll().stream().filter(book -> formatUrlParam(book.getAuthor()).contains(author))
+		List<EntityModel<Book>> books = library.findAll().stream()
+				.filter(book -> formatUrlParam(book.getAuthor()).contains(author))
 				.map(book -> EntityModel.of(book,
 						linkTo(methodOn(LibraryService.class).findByISBN(book.getISBN())).withSelfRel(),
 						linkTo(methodOn(LibraryService.class).listAll()).withRel("books")))
@@ -117,6 +108,17 @@ public class LibraryService {
 	}
 	// end::get-aggregate-root[]
 
+	// checks if book is already in the library before adding it
+	@PostMapping
+	public Book newBook(@RequestBody Book newBook) {
+		try {
+			findByISBN(newBook.getISBN());
+			throw new BookDuplicatedException(newBook.getISBN());
+		} catch (BookNotFoundException e) {
+			return library.save(newBook);
+		}
+	}
+
 	// updates state of a single book
 	@PutMapping("/{ISBN}")
 	public Book replaceBook(@RequestBody Book newBook, @PathVariable String ISBN) {
@@ -133,6 +135,17 @@ public class LibraryService {
 					newBook.setISBN(ISBN);
 					return library.save(newBook);
 				});
+	}
+
+	// checks if book is checked out before deleting it
+	@DeleteMapping("/{ISBN}")
+	public void deleteBook(@PathVariable String ISBN) {
+		Book todel = findByISBN(ISBN).getContent();
+		if (todel.getAvailable()) {
+			library.deleteById(ISBN);
+		} else {
+			throw new BookCheckedOutException(ISBN);
+		}
 	}
 
 	// changes a single book's availability
@@ -161,18 +174,6 @@ public class LibraryService {
 		updateAvailability(ISBN, true);
 	}
 
-	// checks if book is checked out before deleting it
-	@DeleteMapping("/{ISBN}")
-	public void deleteBook(@PathVariable String ISBN) {
-		Book todel = findByISBN(ISBN).getContent();
-		if (todel.getAvailable()) {
-			library.deleteById(ISBN);
-		}
-		else {
-			throw new BookCheckedOutException(ISBN);
-		}
-	}
-	
 	// remove spaces from url params
 	String formatUrlParam(String url_param) {
 		return url_param.toLowerCase().replace(" ", "");

@@ -119,7 +119,4 @@ public class BookCommands implements CommandMarker {
 	private String bookEntity2String(EntityModel<Book> bookEntity) {
 		return bookEntity.getContent().toString() + "\n";
 	}
-
-	// commands for testing
-	// add_book --i 080442957X --t title --a author
 }

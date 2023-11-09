@@ -354,3 +354,24 @@ list_users
 list_available
 delete_user 1
 list_available
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-09 14:20:18
+init
+list_books
+check_out --u 1 --b 0851310419
+list_books
+list_users
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-09 14:29:28
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-09 14:29:35
+init
+list_books
+check_out --u 2 --b 1843560283
+list_available
+list_users
+delete_user 2
+list_books
+check_out --u 1 --b 0851310419
+check_out --u 3 --b 0851310419
+list_users
+return_book --u 1 --b 0851310419
+list_users

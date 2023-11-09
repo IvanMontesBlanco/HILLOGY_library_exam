@@ -81,7 +81,7 @@ public class User {
 			
 			Iterator<String> itr = getBooks().iterator();
 			while(itr.hasNext()) {
-				toret.append("\t(" + itr.next() + ")\\n");
+				toret.append("\t(" + itr.next() + ")\n");
 			}
 		}
 		toret.append("\n");
