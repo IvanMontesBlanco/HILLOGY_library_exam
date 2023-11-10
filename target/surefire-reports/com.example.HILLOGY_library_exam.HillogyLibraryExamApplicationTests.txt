@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.HILLOGY_library_exam.HillogyLibraryExamApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.816 s - in com.example.HILLOGY_library_exam.HillogyLibraryExamApplicationTests

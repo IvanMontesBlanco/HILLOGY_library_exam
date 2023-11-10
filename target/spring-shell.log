@@ -1,0 +1,5 @@
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-10 14:29:07
+init
+add_user "Manolo deluxe"
+list_users
+list_books
