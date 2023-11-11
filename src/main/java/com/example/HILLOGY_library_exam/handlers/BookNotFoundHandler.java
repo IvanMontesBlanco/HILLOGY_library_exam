@@ -11,10 +11,10 @@ import com.example.HILLOGY_library_exam.exceptions.BookNotFoundException;
 @ControllerAdvice
 class BookNotFoundAdvice {
 
-  @ResponseBody
-  @ExceptionHandler(BookNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  String BookNotFoundHandler(BookNotFoundException ex) {
-    return ex.getMessage();
-  }
+	@ResponseBody
+	@ExceptionHandler(BookNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	String BookNotFoundHandler(BookNotFoundException ex) {
+		return ex.getMessage();
+	}
 }

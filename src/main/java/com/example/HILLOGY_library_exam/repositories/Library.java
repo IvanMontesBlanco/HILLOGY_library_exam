@@ -10,6 +10,8 @@ import com.example.HILLOGY_library_exam.entities.Book;
 @Repository
 public interface Library extends JpaRepository<Book, String> {
 	CrudRepository<Book, String> findByTitle(String title);
+
 	ListCrudRepository<Book, String> findByAuthor(String author);
+
 	ListCrudRepository<Book, Boolean> findByAvailable(Boolean available);
 }

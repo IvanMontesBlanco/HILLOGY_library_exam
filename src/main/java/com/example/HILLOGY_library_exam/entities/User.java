@@ -40,7 +40,7 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public ArrayList<String> getBooks() {
 		return books;
 	}
@@ -73,26 +73,25 @@ public class User {
 		StringBuilder toret = new StringBuilder();
 		toret.append("Id: " + getId().toString() + "\n");
 		toret.append("Name: " + getName() + "\n");
-		if (getBooks().size()==0) {
+		if (getBooks().size() == 0) {
 			toret.append("This user does not have any checked out books at the moment.");
-		}
-		else {
+		} else {
 			toret.append("Checked out books:\n");
-			
+
 			Iterator<String> itr = getBooks().iterator();
-			while(itr.hasNext()) {
+			while (itr.hasNext()) {
 				toret.append("\t(" + itr.next() + ")\n");
 			}
 		}
 		toret.append("\n");
-		
+
 		return toret.toString();
 	}
-	
+
 	public void checkOutBook(String ISBN) {
 		books.add(ISBN);
 	}
-	
+
 	public void returnBook(String ISBN) {
 		books.remove(ISBN);
 	}

@@ -378,3 +378,41 @@ list_users
 // Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 10:37:04
 quit
 // Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 10:38:19
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 17:49:18
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 17:58:32
+list_users
+help
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 18:01:51
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 18:03:27
+init
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 18:12:01
+// [failed] init
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 18:19:24
+init
+check_out --b 0851310419 --u 1
+list_available
+list_users
+delete_book 0851310419
+delete_user 1
+delete_book 0851310419
+list_books
+help
+list_users
+delete_user 1
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 18:46:49
+// [failed] init
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 18:48:03
+init
+help
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 19:52:15
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 19:55:35
+init
+check_out --u 2 --b 0851310419
+check_out --b 0851310419 --u 1
+list_users
+list_books
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 20:11:59

@@ -12,7 +12,6 @@
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/commands/BookCommands.java
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/handlers/UserNotFoundHandler.java
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/entities/Book.java
-/home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/commands/JsonReader.java
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/handlers/BookDuplicatedHandler.java
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/repositories/Library.java
 /home/ivan/Documents/curro/procesos_seleccion/HILLOGY_library_exam/src/main/java/com/example/HILLOGY_library_exam/exceptions/ISBNInvalidException.java

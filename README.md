@@ -1,9 +1,9 @@
 # About
-This project was developed as part of a selection process for a Java Developer Job. It consists on a simple SpringBoot implementation of a simple library management system.
+This project was developed as part of a selection process for a Java Developer Job. It consists of a SpringBoot implementation of a simple library management system. It is important to note that it requires **JDK 17** to be executed properly.
 
 # How to run
 
-The files include a .jar executable on the /target folder which can be run with the java command on Linux and Windows through a command prompt. For instance, the Ubuntu command would be java -jar target/HILLOGY_library_exam-0.0.1-SNAPSHOT.jar from inside the project’s folder.
+The files include a .jar executable on the /target folder which can be run with the java command on Linux and Windows through a command prompt. To execute the project, open a command prompt while inside the project's folder and execute the command **java -jar target/HILLOGY_library_exam-0.0.1-SNAPSHOT.jar**. It is also possible to execute **java -jar HILLOGY_library_exam-0.0.1-SNAPSHOT.jar** from within the /target folder.
 
 This command will open a Spring CLI terminal, which we can use to execute several commands:
 

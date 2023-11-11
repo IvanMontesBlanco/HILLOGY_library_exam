@@ -1,4 +1,3 @@
-com/example/HILLOGY_library_exam/commands/JsonReader.class
 com/example/HILLOGY_library_exam/handlers/UserNotFoundAdvice.class
 com/example/HILLOGY_library_exam/commands/BookCommands.class
 com/example/HILLOGY_library_exam/repositories/Library.class

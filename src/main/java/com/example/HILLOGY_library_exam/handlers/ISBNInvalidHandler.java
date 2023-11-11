@@ -11,10 +11,10 @@ import com.example.HILLOGY_library_exam.exceptions.ISBNInvalidException;
 @ControllerAdvice
 class ISBNInvalidAdvice {
 
-  @ResponseBody
-  @ExceptionHandler(ISBNInvalidException.class)
-  @ResponseStatus(HttpStatus.FORBIDDEN)
-  String BookNotFoundHandler(ISBNInvalidException ex) {
-    return ex.getMessage();
-  }
+	@ResponseBody
+	@ExceptionHandler(ISBNInvalidException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	String BookNotFoundHandler(ISBNInvalidException ex) {
+		return ex.getMessage();
+	}
 }

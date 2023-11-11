@@ -11,10 +11,10 @@ import com.example.HILLOGY_library_exam.exceptions.BookDuplicatedException;
 @ControllerAdvice
 class BookDuplicatedAdvice {
 
-  @ResponseBody
-  @ExceptionHandler(BookDuplicatedException.class)
-  @ResponseStatus(HttpStatus.CONFLICT)
-  String BookNotFoundHandler(BookDuplicatedException ex) {
-    return ex.getMessage();
-  }
+	@ResponseBody
+	@ExceptionHandler(BookDuplicatedException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	String BookNotFoundHandler(BookDuplicatedException ex) {
+		return ex.getMessage();
+	}
 }

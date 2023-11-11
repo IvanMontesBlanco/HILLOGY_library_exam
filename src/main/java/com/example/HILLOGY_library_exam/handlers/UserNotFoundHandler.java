@@ -11,10 +11,10 @@ import com.example.HILLOGY_library_exam.exceptions.UserNotFoundException;
 @ControllerAdvice
 class UserNotFoundAdvice {
 
-  @ResponseBody
-  @ExceptionHandler(UserNotFoundException.class)
-  @ResponseStatus(HttpStatus.NOT_FOUND)
-  String UserNotFoundHandler(UserNotFoundException ex) {
-    return ex.getMessage();
-  }
+	@ResponseBody
+	@ExceptionHandler(UserNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	String UserNotFoundHandler(UserNotFoundException ex) {
+		return ex.getMessage();
+	}
 }

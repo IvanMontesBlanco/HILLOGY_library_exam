@@ -66,7 +66,7 @@ public class UserCommands implements CommandMarker {
 	}
 
 	@CliCommand(value = { "check_out",
-			"checkOut" }, help = "Makes the given user check out the given book. Uses the format --BOOK ISBN --USER ID")
+			"checkOut" }, help = "Makes the given user check out the given book. Uses the format --b ISBN --u ID")
 	public String checkOut(@CliOption(key = { "is", "ISBN", "book", "b" }, mandatory = true) String ISBN,
 			@CliOption(key = { "id", "user", "u" }, mandatory = true) Long id) {
 		try {
@@ -77,17 +77,21 @@ public class UserCommands implements CommandMarker {
 			return e.getMessage();
 		} catch (BookCheckedOutException e) {
 			return e.getMessage();
+		} catch (NumberFormatException e) {
+			return e.getMessage();
 		}
 		return "User with id (" + String.valueOf(id) + ") has checked out the book with ISBN (" + ISBN + ").";
 	}
 
 	@CliCommand(value = { "return", "returnBook",
-			"return_book" }, help = "Makes the given user return the given book. Uses the format --BOOK ISBN --USER ID")
+			"return_book" }, help = "Makes the given user return the given book. Uses the format --b ISBN --u ID")
 	public String returnOut(@CliOption(key = { "is", "ISBN", "book", "b" }, mandatory = true) String ISBN,
 			@CliOption(key = { "id", "user", "u" }, mandatory = true) Long id) {
 		try {
 			userService.returnBook(id, ISBN);
 		} catch (BookNotFoundException e) {
+			return e.getMessage();
+		} catch (NumberFormatException e) {
 			return e.getMessage();
 		}
 		return "User with id (" + String.valueOf(id) + ") has returned the book with ISBN (" + ISBN + ").";

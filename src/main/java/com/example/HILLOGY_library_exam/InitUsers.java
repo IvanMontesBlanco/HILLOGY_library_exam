@@ -17,26 +17,26 @@ import com.example.HILLOGY_library_exam.repositories.UserRepository;
 @Configuration
 class InitUsers {
 
-  private static final Logger log = LoggerFactory.getLogger(InitUsers.class);
-  @Autowired
-  DataSourceProperties dataSourceProperties;
-  
-  // changes database settings to avoid recognizing "user" as a keyword
-  @Bean
-  public DataSource dataSource() {
-	    DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-	        dataSourceBuilder.url("jdbc:h2:mem:mydb;NON_KEYWORDS=user");
-	        return dataSourceBuilder.build();   
+	private static final Logger log = LoggerFactory.getLogger(InitUsers.class);
+	@Autowired
+	DataSourceProperties dataSourceProperties;
+
+	// changes database settings to avoid recognizing "user" as a keyword
+	@Bean
+	public DataSource dataSource() {
+		DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+		dataSourceBuilder.url("jdbc:h2:mem:mydb;NON_KEYWORDS=user");
+		return dataSourceBuilder.build();
 	}
-  
-  // creates several test users
-  @Bean
-  CommandLineRunner createDefaultUsers(UserRepository userRepository) {
-	  
-    return args -> {
-      log.info("Preloading " + userRepository.save(new User("Bob")));
-      log.info("Preloading " + userRepository.save(new User("Bobbert")));
-      log.info("Preloading " + userRepository.save(new User("Sarah")));
-    };
-  }
+
+	// creates several test users
+	@Bean
+	CommandLineRunner createDefaultUsers(UserRepository userRepository) {
+
+		return args -> {
+			log.info("Preloading " + userRepository.save(new User("Bob")));
+			log.info("Preloading " + userRepository.save(new User("Bobbert")));
+			log.info("Preloading " + userRepository.save(new User("Sarah")));
+		};
+	}
 }

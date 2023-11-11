@@ -11,10 +11,10 @@ import com.example.HILLOGY_library_exam.exceptions.BookCheckedOutException;
 @ControllerAdvice
 class BookCheckedOutAdvice {
 
-  @ResponseBody
-  @ExceptionHandler(BookCheckedOutException.class)
-  @ResponseStatus(HttpStatus.CONFLICT)
-  String bookCheckedOutHandler(BookCheckedOutException ex) {
-    return ex.getMessage();
-  }
+	@ResponseBody
+	@ExceptionHandler(BookCheckedOutException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	String bookCheckedOutHandler(BookCheckedOutException ex) {
+		return ex.getMessage();
+	}
 }
