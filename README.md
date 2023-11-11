@@ -10,7 +10,7 @@ This command will open a Spring CLI terminal, which we can use to execute severa
 - **init**: creates sample books and users.
 - **help**: while a default command included by Spring CLI, it has been extended to provide information about the project’s custom commands. Each of these includes an alternate name in CamelCase format and an abbreviated form, alongside alternate names for their command arguments if they have more than one. For the sake of readability, this guide only lists the “spaces as underscores” format. 
 
-##Book management commands
+**Book management commands**
 
 - **list_book**: lists all books in the library
 - **list_available**: lists all books in the library that have not been checked out
@@ -20,7 +20,7 @@ This command will open a Spring CLI terminal, which we can use to execute severa
 - **add_book**: adds a book. Requires an ISBN, title and author arguments. Will not allow duplicated ISBNs. Titles and author names with spaces should be given between “quotation marks”.
 - **delete_books**: deletes the book that matches the ISBN given by the user. Will not allow deletion if the book is currently checked out.
 
-##User management commands
+**User management commands**
 
 - **list_users**: lists all users in the library.
 - **create_user**: creates a new user. The user ID number is generated automatically, so this command only requires the user name as an argument. User names with spaces should be given between “quotation marks”.
