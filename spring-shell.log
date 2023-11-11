@@ -375,3 +375,6 @@ check_out --u 3 --b 0851310419
 list_users
 return_book --u 1 --b 0851310419
 list_users
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-11 10:37:04
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 10:38:19

@@ -52,8 +52,7 @@ public class BookCommands implements CommandMarker {
 	public String find_by_ISBN(@CliOption(key = { "", "ISBN" }, mandatory = true) String ISBN) {
 		try {
 			return bookEntity2String(libraryService.findByISBN(ISBN));
-		}
-		catch(BookNotFoundException e) {
+		} catch (BookNotFoundException e) {
 			return e.getMessage();
 		}
 	}
@@ -82,8 +81,7 @@ public class BookCommands implements CommandMarker {
 		} else {
 			try {
 				return libraryService.newBook(newBook).toString();
-			}
-			catch(BookDuplicatedException e) {
+			} catch (BookDuplicatedException e) {
 				return e.getMessage();
 			}
 		}
@@ -94,11 +92,9 @@ public class BookCommands implements CommandMarker {
 		try {
 			libraryService.deleteBook(ISBN);
 			return "Book with ISBN (" + ISBN + ") has been successfully deleted.";
-		}
-		catch(BookNotFoundException e) {
+		} catch (BookNotFoundException e) {
 			return e.getMessage();
-		}
-		catch(BookCheckedOutException e) {
+		} catch (BookCheckedOutException e) {
 			return e.getMessage();
 		}
 	}

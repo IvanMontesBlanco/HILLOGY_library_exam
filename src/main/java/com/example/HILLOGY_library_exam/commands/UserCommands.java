@@ -34,7 +34,7 @@ public class UserCommands implements CommandMarker {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private LibraryService libraryService;
 
@@ -44,74 +44,70 @@ public class UserCommands implements CommandMarker {
 		this.libraryService = libraryService;
 	}
 
-
-
 	@CliCommand(value = { "list_users", "listUsers" }, help = "Lists all users in the library.")
-	public String list_books() {
+	public String list_users() {
 		return userCollection2String(userService.listAll());
 	}
-	
+
 	@CliCommand(value = { "add_user", "addUser" }, help = "Adds an user with the given name. Id is auto-generated.")
 	public String addUser(@CliOption(key = { "", "name" }, mandatory = true) String name) {
 		return userService.newUser(new User(name)).toString();
 	}
-	
-	@CliCommand(value = { "delete_user", "deleteUser" }, help = "Deletes an user with the given id. Book checked out by the user will be returned.")
+
+	@CliCommand(value = { "delete_user",
+			"deleteUser" }, help = "Deletes an user with the given id. Book checked out by the user will be returned.")
 	public String deleteUser(@CliOption(key = { "", "id" }, mandatory = true) long id) {
-		try{
+		try {
 			userService.deleteUser(id);
 			return "User with id (" + String.valueOf(id) + ") has been successfully deleted.";
-		}
-		catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return e.getMessage();
 		}
 	}
-	
-	@CliCommand(value = { "check_out", "checkOut" }, help = "Makes the given user check out the given book. Uses the format --BOOK ISBN --USER ID")
+
+	@CliCommand(value = { "check_out",
+			"checkOut" }, help = "Makes the given user check out the given book. Uses the format --BOOK ISBN --USER ID")
 	public String checkOut(@CliOption(key = { "is", "ISBN", "book", "b" }, mandatory = true) String ISBN,
 			@CliOption(key = { "id", "user", "u" }, mandatory = true) Long id) {
 		try {
 			userService.checkOutBook(id, ISBN);
-		}
-		catch(BookNotFoundException e) {
+		} catch (BookNotFoundException e) {
 			return e.getMessage();
-		}
-		catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return e.getMessage();
-		}
-		catch(BookCheckedOutException e) {
+		} catch (BookCheckedOutException e) {
 			return e.getMessage();
 		}
 		return "User with id (" + String.valueOf(id) + ") has checked out the book with ISBN (" + ISBN + ").";
 	}
-	
-	@CliCommand(value = { "return", "returnBook", "return_book" }, help = "Makes the given user return the given book. Uses the format --BOOK ISBN --USER ID")
+
+	@CliCommand(value = { "return", "returnBook",
+			"return_book" }, help = "Makes the given user return the given book. Uses the format --BOOK ISBN --USER ID")
 	public String returnOut(@CliOption(key = { "is", "ISBN", "book", "b" }, mandatory = true) String ISBN,
 			@CliOption(key = { "id", "user", "u" }, mandatory = true) Long id) {
 		try {
 			userService.returnBook(id, ISBN);
-		}
-		catch(BookNotFoundException e) {
+		} catch (BookNotFoundException e) {
 			return e.getMessage();
 		}
 		return "User with id (" + String.valueOf(id) + ") has returned the book with ISBN (" + ISBN + ").";
 	}
-	
+
 	// returns a given user collection in text form
-		private String userCollection2String(CollectionModel<EntityModel<User>> userCollection) {
-			StringBuilder toret = new StringBuilder();
-			Iterator<EntityModel<User>> itr = userCollection.iterator();
+	private String userCollection2String(CollectionModel<EntityModel<User>> userCollection) {
+		StringBuilder toret = new StringBuilder();
+		Iterator<EntityModel<User>> itr = userCollection.iterator();
 
-			while (itr.hasNext()) {
-				toret.append(userEntity2String(itr.next()));
-			}
-
-			return toret.toString();
+		while (itr.hasNext()) {
+			toret.append(userEntity2String(itr.next()));
 		}
 
-		// returns a given user entity model in text form
-		private String userEntity2String(EntityModel<User> userEntity) {
-			return userEntity.getContent().toString() + "\n";
-		}
+		return toret.toString();
+	}
+
+	// returns a given user entity model in text form
+	private String userEntity2String(EntityModel<User> userEntity) {
+		return userEntity.getContent().toString() + "\n";
+	}
 
 }
