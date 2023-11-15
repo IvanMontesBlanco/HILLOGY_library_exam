@@ -416,3 +416,13 @@ list_users
 list_books
 quit
 // Spring Shell 1.2.0.RELEASE log closed at 2023-11-11 20:11:59
+// Spring Shell 1.2.0.RELEASE log opened at 2023-11-15 10:03:01
+list_books
+init
+list_books
+check_out --u 3 --b 1843560283
+list_available
+help
+find_by_ISBN 1843560283
+quit
+// Spring Shell 1.2.0.RELEASE log closed at 2023-11-15 10:10:19
